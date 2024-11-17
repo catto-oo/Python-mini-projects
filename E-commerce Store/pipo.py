@@ -31,18 +31,15 @@ class Product:
     def is_in_stock(self):
         return self.stock > 0
     
-    # I can do this in the add_product function
+    # I can do this in the add_product function in the cart class
     # def update_stock(self, quantity):
-    #     if quantity <= self.stock:
-    #         self.stock -= quantity
-    #     else:
-    #         print("Not enough stock, go away.")
+    #     pass
         
 
 class Cart:
     def __init__(self, items = {}):
         self.items = items # dict to store product names as keys and prices as values
-    
+
     def add_product(self, product, quantity=1):
         if quantity > product.stock:
             print(f"Go away! We only have {product.stock} of {product.name}.")
@@ -51,13 +48,13 @@ class Cart:
                 self.items[product] += quantity  # add quantity to existing product
             else:
                 self.items[product] = quantity  # add new product
-            product.stock -= quantity  # remove from stock
+            product.stock -= quantity  # remove quantity from stock
 
     def remove_product(self, product, quantity=1):
         if product in self.items:
             if quantity >= self.items[product]:
-                product.stock += self.items[product]  # add everything back to stock
-                self.items.pop(product)  # remove product from the cart
+                product.stock += self.items.pop(product)  # remove key from dict and add its value to stock
+
             else: # if we aren't removing everything
                 self.items[product] -= quantity  # decrease quantity in cart
                 product.stock += quantity  # add back to stock
@@ -77,3 +74,16 @@ class Cart:
             print("Your cart has:")
             for product, quantity in self.items.items():
                 print(f"- {product.name} x{quantity}, worth ${product.price * quantity}.")
+
+
+class Customer:
+    def __init__(self, name, cart):
+        self.name = name
+        self.cart = cart
+    
+    def checkout(self):
+        total = self.cart.calculate_total() # calculating our total
+        print(f"Your total was: {total}.\nSee you later, or not.")
+        self.cart.items.clear() # clearing the cart from products
+
+

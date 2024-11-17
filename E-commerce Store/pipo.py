@@ -40,23 +40,40 @@ class Product:
         
 
 class Cart:
-    def __init__(self, items = []):
-        self.items = items
+    def __init__(self, items = {}):
+        self.items = items # dict to store product names as keys and prices as values
     
-    def add_product(self, product, quantity = 1):
-        # checks if we have the amount that the client wants
+    def add_product(self, product, quantity=1):
         if quantity > product.stock:
             print(f"Go away! We only have {product.stock} of {product.name}.")
+        else:
+            if product in self.items:
+                self.items[product] += quantity  # add quantity to existing product
+            else:
+                self.items[product] = quantity  # add new product
+            product.stock -= quantity  # remove from stock
 
-        else: # adds the product to the item list and removes it from stock
-            for i in range(quantity):
-                self.items.append(product)
-                product.stock -= 1
+    def remove_product(self, product, quantity=1):
+        if product in self.items:
+            if quantity >= self.items[product]:
+                product.stock += self.items[product]  # add everything back to stock
+                self.items.pop(product)  # remove product from the cart
+            else: # if we aren't removing everything
+                self.items[product] -= quantity  # decrease quantity in cart
+                product.stock += quantity  # add back to stock
+        else:
+            print(f"Are you stupid? There's no {product.name} in your cart.")
 
-    def remove_product(self, product):
-        # idk how to implement removing more than 1 of the same product so I just won't lmao
-        self.items.pop(product)
-        product.stock += 1
-
-    def calculate_total():
-        pass
+    def calculate_total(self):
+        total = 0
+        for product, quantity in self.items.items():
+            total += product.price * quantity  # price times amount
+        return total
+    
+    def view_cart(self):
+        if not self.items:
+            print("Your cart is empty, sire.")
+        else:
+            print("Your cart has:")
+            for product, quantity in self.items.items():
+                print(f"- {product.name} x{quantity}, worth ${product.price * quantity}.")

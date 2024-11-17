@@ -43,7 +43,7 @@ class Cart:
 
     def add_product(self, product, quantity=1):
         if quantity > product.stock:
-            print(f"Go away! We only have {product.stock} of {product.name}.")
+            print(f"Go away! We only have {product.stock} {product.name}s.")
         else:
             if product in self.items:
                 self.items[product] += quantity  # add quantity to existing product
@@ -76,8 +76,8 @@ class Cart:
             print("Your cart is empty, sire.")
         else:
             print("Your cart contains:")
-            for product, quantity in self.items.items():
-                print(f"- {product.name} x{quantity}, worth {product.price * quantity}MAD.")
+            for i, (product, quantity) in enumerate(self.items.items()):
+                print(f"{i+1}. {product.name} x{quantity}, {product.price * quantity:.2f} MAD.")
 
 
 class Customer:
@@ -87,7 +87,7 @@ class Customer:
     
     def checkout(self):
         total = self.cart.calculate_total() # calculating our total
-        print(f"Your total is: {total:.2f}MAD.") # apparently the .2f thing makes it only have 2 decimal places
+        print(f"Your total is: {total:.2f} MAD.") # apparently the .2f thing makes it only have 2 decimal places
         answer = input("Would you like to proceed with the checkout? (Yes/No): ").lower()
         if answer[0] == "y":
             print(f"Your purchase is successful! Never come back {self.name}.")
@@ -124,39 +124,56 @@ while True: # main loop finally
     quickTimeEvent = input("Please type a number to access its corresponding functionality: ")
 
     if quickTimeEvent == "1":
+        print("\n") # decoration
         print("The available products in our store are:")
         for i, product in enumerate(prod_manager.products): # the index starts at 0 so I used "i+1" to make it start at 1
-            print(f"{i+1}. {product.name}, {product.price}MAD ({product.stock} left)")
+            print(f"{i+1}. {product.name}, {product.price} MAD ({product.stock} left)")
     
     elif quickTimeEvent == "2":
+        print("\n")
+        for i, product in enumerate(prod_manager.products): # just showing the product list again
+            print(f"{i+1}. {product.name}, {product.price} MAD ({product.stock} left)")
+
+        print("\n")
         pick = int(input("Enter the number of the product which you want to add to your cart: "))
         if 1 <= pick <= len(prod_manager.products): # making sure the number is valid
             picked_product = prod_manager.products[pick - 1] # fixing the index of the product cuz yeah
-            amount = int(input(f"How many {picked_product.name}s would you like to have added to your cart? "))
-            cart.add_product(picked_product, amount)
+            if picked_product.stock == 0:
+                print("That product is out of stock.")
+
+            else:
+                amount = int(input(f"How many {picked_product.name}s would you like to have added to your cart? "))
+                cart.add_product(picked_product, amount)
         else:
-            print("That number isn't in the list, try again.")
+            print("That number isn't in the list.")
 
     elif quickTimeEvent == "3":
+        print("\n")
         cart.view_cart()
         if cart.items: # almost same thing as adding a product
+            print("\n")
             pick = int(input("Enter the number of the product which you want to remove from your cart: "))
             if 1 <= pick <= len(cart.items):
                 picked_product = list(cart.items.keys())[pick - 1] # here I put the keys from the item dict into a list then get the product from it
                 quantity = int(input(f"How many {picked_product.name}s would you like to remove? "))
                 cart.remove_product(picked_product, quantity)
             else:
-                print("That number isn't in the list, try again.")
+                print("That number isn't in the list.")
             
     elif quickTimeEvent == "4":
+        print("\n")
         cart.view_cart()
+        total = humanoid.cart.calculate_total()
+        print(f"Your total is: {total:.2f} MAD.")
 
     elif quickTimeEvent == "5":
+        print("\n")
         humanoid.checkout()
         if not cart.items:
             break # leaving the loop if the cart is empty aka the customer left
 
     elif quickTimeEvent == "6":
+        print("\n")
         print("See you soon, or not.")
         break
 

@@ -77,7 +77,7 @@ class Cart:
         else:
             print("Your cart contains:")
             for product, quantity in self.items.items():
-                print(f"- {product.name} x{quantity}, worth ${product.price * quantity}.")
+                print(f"- {product.name} x{quantity}, worth {product.price * quantity}MAD.")
 
 
 class Customer:
@@ -132,7 +132,7 @@ while True: # main loop finally
         pick = int(input("Enter the number of the product which you want to add to your cart: "))
         if 1 <= pick <= len(prod_manager.products): # making sure the number is valid
             picked_product = prod_manager.products[pick - 1] # fixing the index of the product cuz yeah
-            amount = int(input(f"How many {picked_product.name} would you like to have added to your cart? "))
+            amount = int(input(f"How many {picked_product.name}s would you like to have added to your cart? "))
             cart.add_product(picked_product, amount)
         else:
             print("That number isn't in the list, try again.")

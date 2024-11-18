@@ -87,13 +87,17 @@ class Customer:
     
     def checkout(self):
         total = self.cart.calculate_total() # calculating our total
-        print(f"Your total is: {total:.2f} MAD.") # apparently the .2f thing makes it only have 2 decimal places
-        answer = input("Would you like to proceed with the checkout? (Yes/No): ").lower()
-        if answer[0] == "y":
-            print(f"Your purchase is successful! Never come back {self.name}.")
-            self.cart.items.clear() # clearing the cart from products
+        if total == 0:
+            print("Your cart is empty! Leave and never come back.")
+        
         else:
-            print("9rzaz as7bi khles ola ghyerha")
+            print(f"Your total is: {total:.2f} MAD.") # apparently the .2f thing makes it only have 2 decimal places
+            answer = input("Would you like to proceed with the checkout? (Yes/No): ").lower()
+            if answer[0] == "y":
+                print(f"Your purchase is successful! Never come back {self.name}.")
+                self.cart.items.clear() # clearing the cart from products
+            else:
+                print("9rzaz as7bi khles ola ghyerha")
 
 
 laptop = Product('Laptop', 4999.99, 10)
@@ -106,8 +110,8 @@ gpu = Product('Ryzen 4070', 1, 1) # the memes (https://youtu.be/F1QNUKK1u_4)
 prod_manager = ProductManager()
 prod_manager.products = [laptop, phone, tablet, mouse, keyboard, gpu]
 
-prod_manager.save_products("products.txt") # not sure what I'm doing here tbh
-prod_manager.load_products("products.txt") # reloading the products just to make sure this doesn't go wrong
+prod_manager.save_products(r"E-commerce Store\products.txt") # not sure what I'm doing here tbh
+prod_manager.load_products(r"E-commerce Store\products.txt") # reloading the products just to make sure this doesn't go wrong
 
 cart = Cart()
 customer_name = input("Enter your name: ")

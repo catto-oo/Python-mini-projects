@@ -1,6 +1,0 @@
-Laptop,4999.99,10
-Phone,1999.99,20
-Tablet,1499.99,7
-Mouse,399.99,50
-Keyboard,599.99,50
-Ryzen 4070,1,1

@@ -10,7 +10,6 @@ if os.path.exists(filename):
             name, number = line.strip().split(",")
             contacts[name] = number
 
-print("")
 while True:
     print("\nMain menu: ")
     print("1. Add Contact")

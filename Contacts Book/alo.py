@@ -57,7 +57,7 @@ while True:
             print("\nName:             | Phone:")
             print("-"* 36)
             for name, number in contacts.items():
-                print(f"{name:<17} | {number}")
+                print(f"{name:<17} | {number}") # just learnt this thing, it does like spaces or somehting run it to understand
             print("-"* 36); time.sleep(2)
 
     elif pick == "4":

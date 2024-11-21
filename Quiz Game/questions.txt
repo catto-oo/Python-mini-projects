@@ -1,5 +1,10 @@
-What is the capital of France? , A) Paris , B) Rome , C) Berlin , D) Madrid , A
-What is 2 + 2? , A) 3 , B) 4 , C) 5 , B
-Who wrote "Romeo and Juliet"? , A) William Shakespeare , B) Charles Dickens , C) Jane Austen , D) Mark Twain , A
-Which planet is known as the Red Planet? , A) Earth , B) Mars , C) Venus , D) Jupiter , B
-What is the boiling point of water in Celsius? , A) 90°C , B) 100°C , C) 120°C , D) 80°C , B
+What is the capital of France? , A) Madrid , B) Paris , C) Berlin , D) Rome , B
+What is 3 + 5? , A) 5 , B) 7 , C) 8 , D) 10 , C
+Which programming language is known for its use in web development? , A) Python , B) C++ , C) JavaScript , D) Java , C
+Who wrote "Romeo and Juliet"? , A) Charles Dickens , B) Mark Twain , C) William Shakespeare , D) Jane Austen , C
+Which planet is known as the Red Planet? , A) Earth , B) Mars , C) Jupiter , D) Venus , B
+What's the best club in ENSA-A? , A) Club Ecolos , B) Club Social , C) Club Mecanique , D) Club BTP, E) Club Electrique, F) Club TAC , G) Club Industriel, H) Club Enactus, I) Club Sportif, J) Club Creart, K) AppsClub, L) Club Robotique, M) Club FSF, K
+Find the partial derivative of the function: f(x; y) = x^2y + 3xy^2 - 4x + y^3 with respect to x., A) 2xy + 3y^2 - 4 , B) 2x + 3y^2 - 4 , C) 2xy + 3y^2 , D) 2xy + 6y - 4 , A
+Find the value of y given that e^(x^2 + y^2) = x^2 + y^2 ; when x = 1. What is dy/dx at this point?, A) -1, B) 0, C) 1, D) Undefined, D
+A train starts at a station and travels at a speed of 60 km/h for the first 2 hours. It then increases its speed to 80 km/h and travels for another 4 hours. Afterward the train slows down to 50 km/h and travels for 3 hours. If the total distance between the start and the final station is 680 km; how much time will the train take to reach the destination after it slows down to 50 km/h; assuming it continues at 50 km/h for the remaining distance?, A) 2.5 hours, B) 3 hours, C) 3.5 hours, D) 4 hours, D
+How do you spell "cat"?, A) D-O-G, B) C-A-T, C) P-N-E-U-M-O-N-O-U-L-T-R-A-M-I-C-R-O-S-C-O-P-I-C-S-I-L-I-C-O-V-O-L-C-A-N-O-C-O-N-I-O-S-I-S, B

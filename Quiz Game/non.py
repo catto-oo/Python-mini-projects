@@ -3,7 +3,6 @@ import time
 
 filename = r"Quiz Game\questions.txt"
 questions = []
-condition = True # just for my main while loop
 
 def load_questions():
     if os.path.exists(filename):
@@ -22,7 +21,7 @@ def load_questions():
                     "choices": choices,
                     "correct answer": corr_ans
                 })
-        print("Questions loaded."); time.sleep(2)
+        print("Loading questions..."); time.sleep(2)
     
     else:
         print(f"Couldn't find {filename}.")
@@ -33,15 +32,16 @@ def ask_questions(idx, question):
     choices = question["choices"]
     correct = question["correct answer"]
 
-    print(f"Question {idx}:\n {quest}");time.sleep(1)
+    print(f"\nQuestion {idx}:\n{quest}");time.sleep(1)
 
     for choice in choices:
-        print("    ", choice)
+        print("  ", choice)
 
     possible_choices = [choice[0] for choice in choices]
 
-    answer = input("Enter the letter of your answer: ").strip().upper()
+    
     while True:
+        answer = input("\nEnter the letter of your answer: ").strip().upper()
         if answer in possible_choices:
             correct_index = possible_choices.index(correct) # getting the index of the correct answer
             correct_choice = choices[correct_index] # getting the correct choice based on that correct index
@@ -50,7 +50,7 @@ def ask_questions(idx, question):
                 print("Correct!")
                 return 1 # score + 1
             else:
-                print("Incorrect!")
+                print(f"Incorrect! The correct answer was {correct}.")
                 return 0 # score + 0
             
         else:
@@ -59,29 +59,37 @@ def ask_questions(idx, question):
 
 def run_quiz():
     load_questions()
+    score = 0
+    
     if not questions: # empty questions list
         print("There are no questions available, come back later.")
     else:
-        score = 0
         for idx, question in enumerate(questions, start=1): # 'question' is a dictionary
-            score += ask_questions(idx, question); time.sleep(1) # I also got the index cuz I wanna use it to customize text
+            score += ask_questions(idx, question); time.sleep(2) # I also got the index cuz I wanna use it to customize text
+    
+    print("-"*30)
+    print(f"The quiz is over! Your total score is: {score}/{len(questions)}")
+    print("-"*30); time.sleep(2)
 
-    print(f"The quiz is over! Your total score is: {score}/{len(questions)}"); time.sleep(2)
-
-    temp = input("Would you like to play again? (Yes/No): ").strip().lower()
+    temp = input("\nWould you like to play again? (Yes/No): ").strip().lower()
 
     if temp[0] != "y": # to accept any input such as "yes, yea, yup, yeah..."
         print("Hope you had fun! Goodbye!"); time.sleep(2)
         return False
     else:
+        questions.clear()
         print("Let's go for another round!"); time.sleep(2)
         return True
 
 
-temp = input("Would you like to play a quiz game? (Yes/No): ").strip().lower()
 
-if temp[0] == "y":
-    while condition:
-        condition = run_quiz() # the function returns false or true based on if the player wants to play again
-else:
-    print("Free will reigns...")
+def main():
+    temp = input("Would you like to play a quiz game? (Yes/No): ").strip().lower()
+    if temp[0] == "y":
+        condition = True
+        while condition:
+            condition = run_quiz() # the function returns false or true based on if the player wants to play again or not
+    else:
+        print("Free will reigns...")
+
+main()

@@ -3,10 +3,9 @@ import time
 
 filename = r"Quiz Game\questions.txt"
 questions = []
-condition = False # just for my while loop
+condition = True # just for my main while loop
 
 def load_questions():
-    
     if os.path.exists(filename):
         with open(filename, 'r') as file:
             for line in file:
@@ -28,8 +27,34 @@ def load_questions():
     else:
         print(f"Couldn't find {filename}.")
 
-def ask_questions(question):
-    pass
+
+def ask_questions(idx, question):
+    quest = question["question"]
+    choices = question["choices"]
+    correct = question["correct answer"]
+
+    print(f"Question {idx}:\n {quest}");time.sleep(1)
+
+    for choice in choices:
+        print("    ", choice)
+
+    possible_choices = [choice[0] for choice in choices]
+
+    answer = input("Enter the letter of your answer: ").strip().upper()
+    while True:
+        if answer in possible_choices:
+            correct_index = possible_choices.index(correct) # getting the index of the correct answer
+            correct_choice = choices[correct_index] # getting the correct choice based on that correct index
+
+            if answer == correct_choice[0]: # if the answer (one letter) is the same as the first letter of the correct choice (A, B, C...)
+                print("Correct!")
+                return 1 # score + 1
+            else:
+                print("Incorrect!")
+                return 0 # score + 0
+            
+        else:
+            print("Invalid input. Please enter a letter corresponding to an answer.")
 
 
 def run_quiz():
@@ -38,24 +63,25 @@ def run_quiz():
         print("There are no questions available, come back later.")
     else:
         score = 0
-        for question in questions: # 'question' is a dictionary
-            score += ask_questions(question)
+        for idx, question in enumerate(questions, start=1): # 'question' is a dictionary
+            score += ask_questions(idx, question); time.sleep(1) # I also got the index cuz I wanna use it to customize text
 
     print(f"The quiz is over! Your total score is: {score}/{len(questions)}"); time.sleep(2)
 
     temp = input("Would you like to play again? (Yes/No): ").strip().lower()
+
     if temp[0] != "y": # to accept any input such as "yes, yea, yup, yeah..."
-        condition == False
         print("Hope you had fun! Goodbye!"); time.sleep(2)
+        return False
     else:
         print("Let's go for another round!"); time.sleep(2)
+        return True
 
 
 temp = input("Would you like to play a quiz game? (Yes/No): ").strip().lower()
 
 if temp[0] == "y":
-    while condition == True:
-        run_quiz()
-
+    while condition:
+        condition = run_quiz() # the function returns false or true based on if the player wants to play again
 else:
     print("Free will reigns...")

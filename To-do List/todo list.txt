@@ -1,0 +1,4 @@
+Buy groceries,Purchase food items for the week,[Not Completed]
+Finish homework,Complete math and science assignments,[Not Completed]
+Clean the house,Vacuum and organize the living room,[Not Completed]
+Call Mom,Check in with mom and catch up,[Not Completed]

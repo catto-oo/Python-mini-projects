@@ -38,9 +38,13 @@ def mark_as_done():
     name = input("Enter the name of the task to mark as done: ").capitalize()
     for task in tasks:
         if task["name"] == name: # checking if the current task is the same as the one we wanna mark as done
-            task["status"] = "✅ Completed"
-            print(f"Task '{name}' marked as done!")
-            break # quits loop, otherwise we print the next line
+            if task["status"] == "[Completed]":
+                print(f"Task '{name}' is already marked as done!")
+                return
+            else:
+                task["status"] = "[Completed]"
+                print(f"Task '{name}' marked as done!")
+                return # quits loop, otherwise we print the next line
     print(f"Task '{name}' not found in this list. Check your spelling.")
 
 def delete_task():
@@ -49,7 +53,7 @@ def delete_task():
         if task["name"] == name:
             tasks.pop(idx)
             print(f"Task '{name}' deleted successfully!")
-            break
+            return
     print(f"Task '{name}' not found in this list. Check your spelling.")
 
 def add_task():
@@ -59,10 +63,12 @@ def add_task():
     tasks.append({
         "name": name,
         "desc": desc,
-        "status": "❌ Not Completed" # the task added shouldn't be completed
+        "status": "[Not Completed]" # the task added shouldn't be completed
     })
+    print(f"Task '{name}' added successfuly!")
 
 def main():
+    global tasks
     load_tasks()
     print("Welcome to your To-do List!")
 
@@ -123,10 +129,11 @@ def main():
                     print("Exiting...")
                     break
                 elif answer[0] == 'n':
-                    print("Exiting...")
+                    print("\nExiting...")
                     break
                 else:
                     print("Invalid input! Please enter 'Yes' or 'No'.")
+            break
                     
         else:
             print("Invalid input! Please enter a valid number.")

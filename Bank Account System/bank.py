@@ -1,7 +1,11 @@
 import os
+from datetime import datetime # used in logging the transactions for fun
+
 fileAccounts = r"Bank Account System\accounts.txt"
 fileLog = r"Bank Account System\log.txt"
 accounts = []
+
+
 
 class BankAccount:
     def __init__(self, username, password, balance=0):
@@ -11,18 +15,36 @@ class BankAccount:
 
     def check_password(self, password):
         return self.password == password
+    
+    def log_action(self, text): # tracks withdrawals and deposits
+
+        time = datetime.now().strftime("%Y-%m-%d %H:%M:%S") # uhhh idk i just copied this
+
+        if not os.path.exists(fileLog):
+            with open(fileLog, 'w') as file:  # create the log file if it doesn't exist
+                file.write(f"Log file created.\n")
+
+        with open(fileLog, 'a') as file:
+            file.write(f"[{time}] {self.username}: {text}\n")
+
+    def show_balance(self):
+        print(f"Your current balance is: {self.balance} MAD")
 
     def deposit(self, amount):
         if amount > 0:
             self.balance += amount
-            print(f"Deposited {amount}. New balance: {self.balance}")
+            text = f"Deposited {amount} MAD. New balance: {self.balance} MAD"
+            print(text)
+            self.log_action(text)
         else:
             print("Deposit amount must be positive.")
 
     def withdraw(self, amount):
         if 0 < amount <= self.balance:
             self.balance -= amount
-            print(f"Withdrew {amount}. New balance: {self.balance}")
+            text = f"Withdrew {amount} MAD. New balance: {self.balance} MAD" 
+            print(text)
+            self.log_action(text)
         else:
             print("Insufficient funds or invalid amount.")
 
@@ -58,13 +80,14 @@ def sign_up():
 
                 test = input("Reenter your password: ")
                 if password == test:
-                    accounts.append(BankAccount(name, password, 0))  # create a new account with 0 balance
+                    account = BankAccount(name, password, 0)
+                    accounts.append(account)  # create a new account with 0 balance
                     print(f"Account successfully created. Welcome, {name}")
 
                     with open(fileAccounts, 'a') as file: # updating the accounts.txt with the new account
                         file.write(f"{name},{password},0\n")
                     
-                    return True
+                    return account
                     
                 else:
                     print("The passwords don't match.")
@@ -73,14 +96,13 @@ def sign_up():
             print("This username is taken. Pick a different one.")
 
 def sign_in():
-    name = input("\nEnter your username: ").strip().lower()
+    name = input("\nEnter your username: ")
 
     account = None # intializing as none
     for acc in accounts:
-        if acc.username.lower() == name:
+        if acc.username.lower() == name.strip().lower():
             account = acc # if it finds the name, account becomes that object
             break
-
 
     if account is None:
         print("This username doesn't exist.")
@@ -90,25 +112,57 @@ def sign_in():
             test = input("Enter your password: ")
             if account.check_password(test): # check_password method returns True if passwords match
                 print(f"Sign in successful. Welcome, {name}.")
-                return True # using this to start the program
+                return account # using this in main()
             else:
                 print("Wrong password.")
                 trial += 1
         if trial == 3:
             print("Too many failed attempts. Access denied.")
-            return False
+            return None
         
 def main():
     while True:
-        print("Bank!!!!")
+        print("\nBank!")
         action = input("Do you already have an account? (Yes/No): ").strip().lower()
         if action == "no":
-            if sign_up(): # if it returns true we break the loop and continue the program
+            account = sign_up() # this should be either None or an object
+            if account:
                 break
         elif action == "yes":
-            if sign_in(): # if it returns true we break the loop and continue the program
+            account = sign_in() # this should be either None or an object
+            if account: # if it isn't None and is an object
                 break
         else:
             print("Please enter 'Yes' or 'No' specifically. This is a bank, come on dude.")
+
+    while True:
+        print("\n1. Deposit")
+        print("2. Withdraw")
+        print("3. View Balance")
+        print("4. Sign Out")
+
+        q = input("Choose an option: ")
+        
+        if q == '1':
+            amount = int(input("How much would you like to deposit? (MAD): "))
+            account.deposit(amount)
+
+        elif q == '2':
+            amount = int(input("How much would you like to withdraw? (MAD): "))
+            account.withdraw(amount)
+
+        elif q == '3':
+            account.show_balance()
+
+        elif q == '4':
+            with open(fileAccounts, 'w') as file:
+                for account in accounts: # task is a dict
+                    file.write(f"{account.username},{account.password},{account.balance}\n")
+
+            print("You have been signed out.")
+            break
+
+        else:
+            print("Invalid input! Please enter a valid number.")
 
 main()

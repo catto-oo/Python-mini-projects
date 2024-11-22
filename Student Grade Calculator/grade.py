@@ -137,7 +137,6 @@ def main():
         print("4. View class averages")
         print("5. View Students")
         print("6. Exit")
-        
         q = input("Choose an option: ")
         
         if q == "1":
